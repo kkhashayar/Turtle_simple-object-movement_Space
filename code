@@ -1,0 +1,41 @@
+import turtle
+import math
+screen = turtle.Screen()
+screen.bgcolor("blue")
+screen.title("Space Physics Motion Template")
+screen.tracer(1)
+
+class Player(turtle.Turtle):
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.color("white")
+        self.shape("square")
+        self.penup()
+        self.speed(0)
+        self.thrust = 1# Acceleration force 
+        self.dx = 0      # Horizontal change + right - left
+        self.dy = 0      # Vertical change      + up    - down
+        
+    def move(self):
+        self.goto(self.xcor() + self.dx, self.ycor()+self.dy)
+
+    def turn_left(self):
+        self.left(30)
+    def turn_right(self):
+        self.right(30)
+
+    def accelerate(self):
+        h = self.heading()
+        self.dx += math.cos(h*math.pi/180)*self.thrust
+        self.dy += math.cos(h*math.pi/180)*self.thrust
+
+player = Player()
+
+turtle.listen()
+turtle.onkey(player.turn_left,"Left")
+turtle.onkey(player.turn_right,"Right")
+turtle.onkey(player.accelerate,"Up")
+
+# Game loop
+while True:
+    player.move()
